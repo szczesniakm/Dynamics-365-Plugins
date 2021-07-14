@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Dynamics365_Plugins
 {
-    public class TestPlugin : IPlugin
+    public class PostCreateOrderContactAddressUpdate : IPlugin
     {
 
         public void Execute(IServiceProvider serviceProvider)
@@ -20,6 +20,8 @@ namespace Dynamics365_Plugins
 
             IPluginExecutionContext context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
 
+            if (context.Stage != 40 || context.MessageName != "Create")
+                return;
 
             if (context.InputParameters.Contains("Target") && context.InputParameters["Target"] is Entity)
             {
